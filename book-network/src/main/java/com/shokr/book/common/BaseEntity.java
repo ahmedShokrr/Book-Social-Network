@@ -1,7 +1,10 @@
 package com.shokr.book.common;
 
-
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,24 +18,21 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-
-
 @Getter
 @Setter
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-@MappedSuperclass //Indicates that this class is a base class whose properties will be inherited by its subclasses, but it will not be mapped to a database table on its own.
+@MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
 
     @Id
     @GeneratedValue
-    private Integer id; // Integer allows null values which is useful for auto-generated IDs
-
+    private Integer id;
 
     @CreatedDate
-    @Column(updatable = false, nullable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
     @LastModifiedDate
@@ -40,11 +40,10 @@ public class BaseEntity {
     private LocalDateTime lastModifiedDate;
 
     @CreatedBy
-    @Column(updatable = false, nullable = false)
-    private Integer createdBy; // Integer can be null if the entity is not yet persisted
+    @Column(nullable = false, updatable = false)
+    private Integer createdBy;
+
     @LastModifiedBy
     @Column(insertable = false)
-    private Integer lastModifiedBy; // Integer can be null if the entity is not yet persisted
-
-
+    private Integer lastModifiedBy;
 }

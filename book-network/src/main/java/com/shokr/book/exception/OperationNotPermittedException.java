@@ -1,11 +1,11 @@
 package com.shokr.book.exception;
 
-
-
 public class OperationNotPermittedException extends RuntimeException {
 
-    public OperationNotPermittedException(String msg){
-        super(msg);
+    public OperationNotPermittedException() {
     }
 
+    public OperationNotPermittedException(String message) {
+        super(message);
+    }
 }

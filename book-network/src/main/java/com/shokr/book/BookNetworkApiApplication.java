@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-@SpringBootApplication
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @EnableAsync
+@SpringBootApplication
 public class BookNetworkApiApplication {
 
 	public static void main(String[] args) {
@@ -26,5 +26,4 @@ public class BookNetworkApiApplication {
 			}
 		};
 	}
-
 }

@@ -73,8 +73,6 @@ public class AuthenticationService {
                 .build();
     }
 
-
-
     @Transactional
     public void activateAccount(String token) throws MessagingException {
         Token savedToken = tokenRepository.findByToken(token)
@@ -118,7 +116,7 @@ public class AuthenticationService {
                 activationUrl,
                 newToken,
                 "Account activation"
-        );
+                );
     }
 
     private String generateActivationCode(int length) {

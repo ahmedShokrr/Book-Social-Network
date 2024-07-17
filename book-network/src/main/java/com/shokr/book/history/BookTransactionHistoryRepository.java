@@ -11,45 +11,55 @@ import java.util.Optional;
 public interface BookTransactionHistoryRepository extends JpaRepository<BookTransactionHistory, Integer> {
 
     @Query("""
-            SELECT history
-            FROM BookTransactionHistory history
-            WHERE history.user.id = :userId
-    """)
-    Page<BookTransactionHistory> findAllBorrowedBooks(Pageable pageable, @Param("userId") Integer userId);
-
-    @Query("""
-            SELECT history
-            FROM BookTransactionHistory history
-            WHERE history.book.owner.id = :userId
-    """)
-    Page<BookTransactionHistory> findAllReturnedBooks(Pageable pageable, @Param("userId") Integer userId);
-
-    @Query("""
-            SELECT COUNT(bookTransactionHistory) > 0
-            FROM BookTransactionHistory bookTransactionHistory
-            WHERE bookTransactionHistory.user.id = :userId
-            AND bookTransactionHistory.book.id = :bookId
+            SELECT 
+                CASE WHEN COUNT(bookTransactionHistory) > 0 THEN true ELSE false END 
+            FROM BookTransactionHistory bookTransactionHistory 
+            WHERE bookTransactionHistory.user.id = :userId 
+            AND bookTransactionHistory.book.id = :bookId 
             AND bookTransactionHistory.returnApproved = false
-    """)
+            """)
     boolean isAlreadyBorrowedByUser(@Param("bookId") Integer bookId, @Param("userId") Integer userId);
 
     @Query("""
-            SELECT transaction
-            FROM BookTransactionHistory transaction
-            WHERE transaction.user.id = :userId
-            AND transaction.book.id = :bookId
-            AND transaction.returned = false 
-            AND transaction.returnApproved = false
-    """)
-    Optional<BookTransactionHistory> findAllByBookIdAndUserId(@Param("bookId") Integer bookId, @Param("userId") Integer userId);
+            SELECT 
+                CASE WHEN COUNT(bookTransactionHistory) > 0 THEN true ELSE false END 
+            FROM BookTransactionHistory bookTransactionHistory 
+            WHERE bookTransactionHistory.book.id = :bookId 
+            AND bookTransactionHistory.returnApproved = false
+            """)
+    boolean isAlreadyBorrowed(@Param("bookId") Integer bookId);
 
     @Query("""
-            SELECT transaction
-            FROM BookTransactionHistory transaction
-            WHERE transaction.book.owner.id = :userId
-            AND transaction.book.id = :bookId
+            SELECT transaction 
+            FROM BookTransactionHistory transaction 
+            WHERE transaction.user.id = :userId 
+            AND transaction.book.id = :bookId 
+            AND transaction.returned = false 
+            AND transaction.returnApproved = false
+            """)
+    Optional<BookTransactionHistory> findByBookIdAndUserId(@Param("bookId") Integer bookId, @Param("userId") Integer userId);
+
+    @Query("""
+            SELECT transaction 
+            FROM BookTransactionHistory transaction 
+            WHERE transaction.book.owner.id = :userId 
+            AND transaction.book.id = :bookId 
             AND transaction.returned = true 
             AND transaction.returnApproved = false
-    """)
-    Optional<BookTransactionHistory> findAllByBookIdAndOwnerId(@Param("bookId") Integer bookId, @Param("userId") Integer userId);
+            """)
+    Optional<BookTransactionHistory> findByBookIdAndOwnerId(@Param("bookId") Integer bookId, @Param("userId") Integer userId);
+
+    @Query("""
+            SELECT history 
+            FROM BookTransactionHistory history 
+            WHERE history.user.id = :userId
+            """)
+    Page<BookTransactionHistory> findAllBorrowedBooks(Pageable pageable, @Param("userId") Integer userId);
+
+    @Query("""
+            SELECT history 
+            FROM BookTransactionHistory history 
+            WHERE history.book.owner.id = :userId
+            """)
+    Page<BookTransactionHistory> findAllReturnedBooks(Pageable pageable, @Param("userId") Integer userId);
 }

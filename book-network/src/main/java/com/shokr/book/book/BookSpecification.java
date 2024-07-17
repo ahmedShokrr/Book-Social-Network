@@ -1,6 +1,5 @@
 package com.shokr.book.book;
 
-
 import org.springframework.data.jpa.domain.Specification;
 
 public class BookSpecification {

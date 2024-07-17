@@ -1,6 +1,5 @@
 package com.shokr.book.history;
 
-
 import com.shokr.book.book.Book;
 import com.shokr.book.common.BaseEntity;
 import com.shokr.book.user.User;
@@ -19,7 +18,6 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-
 public class BookTransactionHistory extends BaseEntity {
 
     @ManyToOne
@@ -28,11 +26,6 @@ public class BookTransactionHistory extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
-
     private boolean returned;
     private boolean returnApproved;
-
-
-
-
 }

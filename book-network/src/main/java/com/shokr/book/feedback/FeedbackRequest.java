@@ -18,6 +18,5 @@ public record FeedbackRequest(
         String comment,
         @NotNull(message = "204")
         Integer bookId
-
 ) {
 }

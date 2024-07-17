@@ -2,15 +2,15 @@ package com.shokr.book.feedback;
 
 import com.shokr.book.book.Book;
 import com.shokr.book.common.BaseEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-
-import java.util.List;
-
 
 @Getter
 @Setter
@@ -18,21 +18,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-
 public class Feedback extends BaseEntity {
 
-
-    private Double note; // 1 to 5
-
+    @Column
+    private Double note;
     private String comment;
-
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
-
-
-
-
-
-
 }
